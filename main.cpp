@@ -13,9 +13,11 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
+#include <vector>
 #include "subway_system.h"
-
+#include "subway_station.h"
 using namespace std;
+void inputFileData(stringstream& iFile);
 int main(int argc, char* argv[])
 {
 	ifstream  fin;    
@@ -38,14 +40,41 @@ int main(int argc, char* argv[])
 		//fout.close();*/
 		
 	// cout << "What " << endl;
-	 subwaySystem newSubWay;
+	 
 	 stringstream arg1(argv[1]);
-	 //stringstream arg2(argv[2]);
-	 newSubWay.newSubWaySystem(arg1);
-
-	
-	 //newCensus.newCensusSystem(arg1, arg2); 
+	 //stringstream arg2(argv[2])
+		inputFileData(arg1);
+	 
 
   
+}
+void inputFileData(stringstream& iFile){
+	 	 subwaySystem newSubWay;
+	  	 string inputFile;
+	  	 iFile >> inputFile;
+		 ifstream inputFileHandling;
+		 inputFileHandling.open(inputFile.c_str());
+		 bool endofFile = false;
+		 int count = 0;
+		 bool inList = false;
+		 while(endofFile != true){
+				
+				string subwayInfo = "";
+				
+				getline(inputFileHandling, subwayInfo);
+				if(inputFileHandling.bad()  || inputFileHandling.eof()){cout << "break?" << endl;endofFile = true;}
+		 		else{	
+				
+					subwayStation newsubwayStation(subwayInfo);
+					//cout << "Before what" << endl;
+					newsubwayStation.getObjectFixGeom();
+					newsubwayStation.getObjectFixLine();
+					newSubWay.addToVec(newsubwayStation);
+					cout << newsubwayStation << endl;
+					//cout << "Hmm " << endl;
+				}
+		}
+
+
 }
 

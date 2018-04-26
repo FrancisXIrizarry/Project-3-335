@@ -24,11 +24,16 @@ using namespace std;
 class subwaySystem{
 
 	public:
-		void newSubWaySystem(stringstream& iFile);
+		void newSubWaySystem();
+		void addToVec(subwayStation newsubwayStation){
+			allSubwayStations.push_back(newsubwayStation);
+		}
 
 	private:
 		string inputFile;
-		vector<subwayStation> allSubwayStations; 
+		vector<subwayStation> allSubwayStations;
+		vector<subwayStation::LineObj> LineContainer;
+		//vector
 
 
 };

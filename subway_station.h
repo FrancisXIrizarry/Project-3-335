@@ -26,6 +26,19 @@ class subwayStation{
 	void getObjectFixLine();
 	void getObjectFixGeom();
 	friend ostream& operator<< (ostream & os, const subwayStation & t);
+	 struct LineObj {
+	   vector<string> LineStrE;
+	   friend ostream& operator<< (ostream & os, const LineObj & t){
+		//cout << "What\n\t" << t.LineStrE.size() << endl;
+		os << setw(1) << right <<  "[" << setw(1);
+		 for (int i = 0; i < t.LineStrE.size(); ++i) {
+       		 	os << left << t.LineStrE[i];
+			if (i != t.LineStrE.size() - 1)
+      			      os << left <<  "-";
+    		 }
+    		 os << "]";
+	   } 
+	 } subwayLines;
 	private:
 	double ObjectId;
 	string URL, Name, Line, The_Geom;
@@ -36,23 +49,11 @@ class subwayStation{
 	  double longitude;
 	  double latitude;
 	  friend ostream& operator<< (ostream & os, const GeoObj & t){
-	 	os << setw(8) << left << t.geoPointB << left << t.longitude << left << " , " << left << t.latitude << left << t.geoPointE;
+	 	os << setw(7) << left << t.geoPointB << left << t.longitude << setw(2) << left << " , " << setw(2) <<  left << t.latitude << left << t.geoPointE;
 	  } 
 	   
 	 } GeomObj; //Struct called GeoObj, and a variable for the class called GeomObj
-	 struct LineObj {
-	   vector<string> LineStrE;
-	   friend ostream& operator<< (ostream & os, const LineObj & t){
-		//cout << "What\n\t" << t.LineStrE.size() << endl;
-		os << setw(10) << right <<  "[" << setw(1);
-		 for (int i = 0; i < t.LineStrE.size(); ++i) {
-       		 	os << left << t.LineStrE[i];
-			if (i != t.LineStrE.size() - 1)
-      			      os << left <<  "-";
-    		 }
-    		 os << "]";
-	   } 
-	 } subwayLines;
+	
 	
 	//inline ostream &operator<< (ostream & os, const GeomObj & t){}	
 };
