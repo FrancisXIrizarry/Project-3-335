@@ -17,13 +17,13 @@
 #include "subway_system.h"
 #include "subway_station.h"
 using namespace std;
-void inputFileData(stringstream& iFile);
+void inputFileData(stringstream& iFile, stringstream& oFile);
 int main(int argc, char* argv[])
 {
 	ifstream  fin;    
-    	//ofstream  fout;
+    	ifstream  fout;
 	//(Not enough arguments/too many, tells user and fails
-		 if ( argc != 2 ) {
+		 if ( argc != 3 ) {
       		   cerr << "Usage: " << argv[0] << " input_file \n";
        		  exit(1);
     		 }  
@@ -32,23 +32,23 @@ int main(int argc, char* argv[])
 			cerr << "Could not open" << argv[1] << " for reading.\n";
 			exit(1);
 		 }  
-		 /*fout.open(argv[2], ios::in);
+		 fout.open(argv[2], ios::in);
    		 if ( fout.fail() ) {
     		    cerr << "Could not open " << argv[2] << " for reading.\n";
    		     exit(1);
    		 }
-		//fout.close();*/
+		fout.close();
 		
 	// cout << "What " << endl;
 	 
 	 stringstream arg1(argv[1]);
-	 //stringstream arg2(argv[2])
-		inputFileData(arg1);
+	 stringstream arg2(argv[2]);	
+	 inputFileData(arg1,arg2);
 	 
 
   
 }
-void inputFileData(stringstream& iFile){
+void inputFileData(stringstream& iFile, stringstream& oFile){
 	 	 subwaySystem newSubWay;
 	  	 string inputFile;
 	  	 iFile >> inputFile;
@@ -74,7 +74,41 @@ void inputFileData(stringstream& iFile){
 					//cout << "Hmm " << endl;
 				}
 		}
+		bool exit = false;
+		string commandFile;
+		oFile >> commandFile;
+		ifstream inputCommandHandling;
+		string commandString;
+		inputCommandHandling.open(commandFile.c_str());
+		
+		while(!inputCommandHandling.eof()){
+			getline(inputCommandHandling, commandString);
+			cout << commandString << endl;
+			//break;
+		}
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
