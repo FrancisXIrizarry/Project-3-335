@@ -26,8 +26,11 @@ clean:
 cleanall:
 	rm -f $(OBJS) $(PROG) 
 
-$(PROG): $(OBJS)
-	$(CXX) -o $(PROG) $(OBJS) 
+$(PROG): $(OBJS) command.o
+	$(CXX) -o $(PROG) $(OBJS) command.o
 
 .cpp:
 	$(CXX) -c $@.cpp  $(CXXFLAGS)
+
+
+

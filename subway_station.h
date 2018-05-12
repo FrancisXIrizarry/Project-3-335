@@ -58,4 +58,16 @@ class subwayStation{
 	//inline ostream &operator<< (ostream & os, const GeomObj & t){}	
 };
 
+
+/*
+
+subway_station.h //with entrance  + hashing
+subway_station.cpp //with entrance + hashing for line and station
+subway_system.h
+subway_system.cpp
+
+
+
+*/
+
 #endif 
