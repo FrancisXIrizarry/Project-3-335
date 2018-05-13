@@ -20,44 +20,48 @@
 #include <iterator>
 #include <iomanip>
 using namespace std;
-class subwayStation{
-	public:
-	subwayStation(const string& subwayInfo);
-	void getObjectFixLine();
-	void getObjectFixGeom();
-	friend ostream& operator<< (ostream & os, const subwayStation & t);
-	 struct LineObj {
-	   vector<string> LineStrE;
-	   friend ostream& operator<< (ostream & os, const LineObj & t){
-		//cout << "What\n\t" << t.LineStrE.size() << endl;
-		os << setw(1) << right <<  "[" << setw(1);
-		 for (int i = 0; i < t.LineStrE.size(); ++i) {
-       		 	os << left << t.LineStrE[i];
-			if (i != t.LineStrE.size() - 1)
-      			      os << left <<  "-";
-    		 }
-    		 os << "]";
-	   } 
-	 } subwayLines;
-	private:
-	double ObjectId;
-	string URL, Name, Line, The_Geom;
-	struct GeoObj {
-	  //GeomObj(){}
-	  string geoPointB = "POINT( ";
-	  string geoPointE = ")";
-	  double longitude;
-	  double latitude;
-	  friend ostream& operator<< (ostream & os, const GeoObj & t){
-	 	os << setw(7) << left << t.geoPointB << left << t.longitude << setw(2) << left << " , " << setw(2) <<  left << t.latitude << left << t.geoPointE;
-	  } 
-	   
-	 } GeomObj; //Struct called GeoObj, and a variable for the class called GeomObj
-	
-	
-	//inline ostream &operator<< (ostream & os, const GeomObj & t){}	
-};
+class subwayStation {
+  public:
+    subwayStation(){}
+    subwayStation(const string & subwayInfo);
+  void getObjectFixLine();
+  void getObjectFixGeom();
+  friend ostream & operator << (ostream & os,
+    const subwayStation & t);
+  struct LineObj {
+    vector < string > LineStrE;
+    friend ostream & operator << (ostream & os,
+      const LineObj & t) {
+      //cout << "What\n\t" << t.LineStrE.size() << endl;
+      os << setw(1) << right << "[" << setw(1);
+      for (int i = 0; i < t.LineStrE.size(); ++i) {
+        os << left << t.LineStrE[i];
+        if (i != t.LineStrE.size() - 1)
+          os << left << "-";
+      }
+      os << "]";
+    }
+  }
+  subwayLines;
+  private:
+    double ObjectId;
+  string URL, Name, Line, The_Geom;
+  struct GeoObj {
+    //GeomObj(){}
+    string geoPointB = "POINT( ";
+    string geoPointE = ")";
+    double longitude;
+    double latitude;
+    friend ostream & operator << (ostream & os,
+      const GeoObj & t) {
+      os << setw(7) << left << t.geoPointB << left << t.longitude << setw(2) << left << " , " << setw(2) << left << t.latitude << left << t.geoPointE;
+    }
 
+  }
+  GeomObj; //Struct called GeoObj, and a variable for the class called GeomObj
+
+  //inline ostream &operator<< (ostream & os, const GeomObj & t){}	
+};
 
 /*
 
@@ -65,9 +69,6 @@ subway_station.h //with entrance  + hashing
 subway_station.cpp //with entrance + hashing for line and station
 subway_system.h
 subway_system.cpp
-
-
-
 */
 
 #endif 
