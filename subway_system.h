@@ -30,17 +30,17 @@ using namespace std;
  template < class myType >
    class LinkedHashEntry {
      private:
-       int key;
+       unsigned int long key;
      myType value;
      LinkedHashEntry < myType > * next;
      public:
-       LinkedHashEntry (int key, myType value) {
+       LinkedHashEntry (unsigned int long key, myType value) {
          this -> key = key;
          this -> value = value;
          this -> next = NULL;
        }
 
-     int getKey() {
+     int long getKey() {
        return key;
      }
 
@@ -65,21 +65,21 @@ using namespace std;
    class HashMap {
      private:
        float threshold;
-     int maxSize;
-     int tableSize;
-     int size;
+     int long maxSize;
+     int long tableSize;
+     int  size;
      LinkedHashEntry < myType > * * table;
 
      void resize() {
-       int oldTableSize = tableSize;
+       int long oldTableSize = tableSize;
        tableSize *= 2;
-       maxSize = (int)(tableSize * threshold);
+       maxSize = (int long)(tableSize * threshold);
        LinkedHashEntry < myType > * * oldTable = table;
        table = new LinkedHashEntry < myType > * [tableSize];
-       for (int i = 0; i < tableSize; i++)
+       for (int long i = 0; i < tableSize; i++)
          table[i] = NULL;
        size = 0;
-       for (int hash = 0; hash < oldTableSize; hash++)
+       for (unsigned int long hash = 0; hash < oldTableSize; hash++)
          if (oldTable[hash] != NULL) {
            LinkedHashEntry < myType > * oldEntry;
            LinkedHashEntry < myType > * entry = oldTable[hash];
@@ -100,33 +100,35 @@ using namespace std;
          tableSize = DEFAULT_TABLE_SIZE;
          size = 0;
          table = new LinkedHashEntry < myType > * [tableSize];
-         for (int i = 0; i < tableSize; i++)
+         for (int long i = 0; i < tableSize; i++)
            table[i] = NULL;
        }
 
      void setThreshold(float threshold) {
        this -> threshold = threshold;
-       maxSize = (int)(tableSize * threshold);
+       maxSize = (int long)(tableSize * threshold);
      }
      LinkedHashEntry < myType > * * returnTable(){ return table; }
-     int getSize(){ return size; }
-     myType get(int key) {
-       int hash = (key % tableSize);
-       if (table[hash] == NULL)
-         return -1;
+
+
+     int long getSize(){ return size; }
+
+
+     myType get(unsigned int long key) {
+       unsigned int long hash = (key % tableSize);
+       if (table[hash] == NULL){}
        else {
          LinkedHashEntry < myType > * entry = table[hash];
          while (entry != NULL && entry -> getKey() != key)
            entry = entry -> getNext();
-         if (entry == NULL)
-           return -1;
+         if (entry == NULL){}   
          else
            return entry -> getValue();
        }
      }
 
-     void add(int key, myType value) {
-       int hash = (key % tableSize);
+     void add(unsigned int long key, myType value) {
+       unsigned int long hash = (key % tableSize);
        if (table[hash] == NULL) {
          table[hash] = new LinkedHashEntry < myType > (key, value);
          size++;
@@ -144,9 +146,16 @@ using namespace std;
        if (size >= maxSize)
          resize();
      }
-
-     void remove(int key) {
-       int hash = (key % tableSize);
+     unsigned long int hashFun(string preHash){
+         
+         unsigned long int preHashInt = 5381 ;
+         int long c = preHash.size();
+         for(int long i = 0; i < c; i++){
+            preHashInt = ((preHashInt << 5)+ preHashInt) + preHash[i];}
+         return preHashInt;
+     }
+     void remove(unsigned int long key) {
+       unsigned int long hash = (key % tableSize);
        if (table[hash] != NULL) {
          LinkedHashEntry < myType > * prevEntry = NULL;
          LinkedHashEntry < myType > * entry = table[hash];
@@ -170,7 +179,7 @@ using namespace std;
      }
 
      ~HashMap() {
-       for (int hash = 0; hash < tableSize; hash++)
+       for (unsigned int long hash = 0; hash < tableSize; hash++)
          if (table[hash] != NULL) {
            LinkedHashEntry < myType > * prevEntry = NULL;
            LinkedHashEntry < myType > * entry = table[hash];
@@ -190,25 +199,37 @@ using namespace std;
    public:
      void newSubWaySystem();
 
-   void addToVec(subwayStation newsubwayStation) {
-     //allSubwayStations.push_back(newsubwayStation);
-       StationHash.add(StationHash.getSize(), newsubwayStation);
+   void hashStation(subwayStation newsubwayStation) {
+        allSubwayStations.push_back(newsubwayStation);//For all stations
+        cout << newsubwayStation << "\t " << StationHash.hashFun(newsubwayStation.subwayName()) << endl;
+       StationHash.add(StationHash.hashFun(newsubwayStation.subwayName()), newsubwayStation); //StationHash.hashFun(newsubwayStation.subwayName())  StationHash.getSize() For Quick finding station
+      //string str = newsubwayStation.getLineStr();
+      LineHash.add(LineHash.getSize(), newsubwayStation.getLineObj());
    }
    double haversine(double lat1, double lon1, double lat2, double lon2);
 
-   void hashStation() {}
-   void hashLine() {}
+
    void printAllHashStation(){
      for(int i = 0; i < StationHash.getSize(); i++){
-        cout << StationHash.get(int key) << endl; // StationHash.returnTable()[i]
+       // cout << StationHash.get(i) << endl; // StationHash.returnTable()[i]
      }
+     for(int i = 0; i < LineHash.getSize(); i++){
+     //  cout << LineHash.get(i) << endl; // StationHash.returnTable()[i]
+     }
+     //int y = StationHash.getSize();
+     int x = LineHash.getSize();
+     cout << StationHash.hashFun("Woodhaven Blvd & Queens Blvd at SW corner") << endl;
+     //cout << StationHash.hashFun("Woodhaven Blvd & Queens Blvd at SW corner") << endl; StationHash.returnTable()[32587595529594132 % 512]->getNext() << << StationHash.get(32587595529594132) << "\n"
+    // LinkedHashEntry<subwayStation> *next =  StationHash.returnTable()[32587595529594132 % 512]->getNext();
+    // cout << StationHash.getSize() << endl;
+    //  cout << StationHash.returnTable()[32587595529594132 % 512]->getValue() << " Prev and Next " << next->getValue() <<   "\ntest " << LineHash.get(x-1);
    }
 
    private:
      string inputFile;
      HashMap<subwayStation> StationHash;
      HashMap<subwayStation::LineObj>LineHash;
-   //vector < subwayStation > allSubwayStations;
+   vector < subwayStation > allSubwayStations;
 
    //vector < subwayStation::LineObj > LineContainer;
 
@@ -216,160 +237,5 @@ using namespace std;
 
  };
 
- /*
- const int DEFAULT_TABLE_SIZE = 128;
- class LinkedHashEntry {
- private:
-       int key;
-       int value;
-       LinkedHashEntry *next;
- public:
-       LinkedHashEntry(int key, int value) {
-             this->key = key;
-             this->value = value;
-             this->next = NULL;
-       }
-  
-       int getKey() {
-             return key;
-       }
-  
-       int getValue() {
-             return value;
-       }
-  
-       void setValue(int value) {
-             this->value = value;
-       }
-  
-       LinkedHashEntry *getNext() {
-             return next;
-       }
-  
-       void setNext(LinkedHashEntry *next) {
-             this->next = next;
-       }
- }; 
- class HashMap {
- private:
-       float threshold;
-       int maxSize;
-       int tableSize;
-       int size;
-       LinkedHashEntry **table;
-  
-       void resize() {
-             int oldTableSize = tableSize;
-             tableSize *= 2;
-             maxSize = (int) (tableSize * threshold);
-             LinkedHashEntry **oldTable = table;
-             table = new LinkedHashEntry*[tableSize];
-             for (int i = 0; i < tableSize; i++)
-                   table[i] = NULL;
-             size = 0;
-             for (int hash = 0; hash < oldTableSize; hash++)
-                   if (oldTable[hash] != NULL) {
-                         LinkedHashEntry *oldEntry;
-                         LinkedHashEntry *entry = oldTable[hash];
-                         while (entry != NULL) {
-                              add(entry->getKey(), entry->getValue());
-                              oldEntry = entry;
-                              entry = entry->getNext();
-                              delete oldEntry;
-                         }
-                   }
-             delete[] oldTable;
-       }
-  
- public:
-       HashMap() {
-             threshold = 0.75f;
-             maxSize = 96;
-             tableSize = DEFAULT_TABLE_SIZE;
-             size = 0;
-             table = new LinkedHashEntry*[tableSize];
-             for (int i = 0; i < tableSize; i++)
-                   table[i] = NULL;
-       }
-      // friend ostream& operator<< (ostream & os,  HashMap & t);
-       void setThreshold(float threshold) {
-             this->threshold = threshold;
-             maxSize = (int) (tableSize * threshold);
-       }
-  
-       int get(int key) {
-             int hash = (key % tableSize);
-             if (table[hash] == NULL)
-                   return -1;
-             else {
-                   LinkedHashEntry *entry = table[hash];
-                   while (entry != NULL && entry->getKey() != key)
-                         entry = entry->getNext();
-                   if (entry == NULL)
-                         return -1;
-                   else
-                         return entry->getValue();
-             }
-       }
-  
-       void add(int key, int value) {
-             int hash = (key % tableSize);
-             if (table[hash] == NULL) {
-                   table[hash] = new LinkedHashEntry(key, value);
-                   size++;
-             } else {
-                   LinkedHashEntry *entry = table[hash];
-                   while (entry->getNext() != NULL)
-                         entry = entry->getNext();
-                   if (entry->getKey() == key)
-                         entry->setValue(value);
-                   else {
-                         entry->setNext(new LinkedHashEntry(key, value));
-                         size++;
-                   }
-             }
-             if (size >= maxSize)
-                   resize();
-       }
-  
-       void remove(int key) {
-             int hash = (key % tableSize);
-             if (table[hash] != NULL) {
-                   LinkedHashEntry *prevEntry = NULL;
-                   LinkedHashEntry *entry = table[hash];
-                   while (entry->getNext() != NULL && entry->getKey() != key) {
-                         prevEntry = entry;
-                         entry = entry->getNext();
-                   }
-                   if (entry->getKey() == key) {
-                         if (prevEntry == NULL) {
-                              LinkedHashEntry *nextEntry = entry->getNext();
-                              delete entry;
-                              table[hash] = nextEntry;
-                         } else {
-                              LinkedHashEntry *next = entry->getNext();
-                              delete entry;
-                              prevEntry->setNext(next);
-                         }
-                         size--;
-                   }
-             }
-       }
-  
-       ~HashMap() {
-             for (int hash = 0; hash < tableSize; hash++)
-                   if (table[hash] != NULL) {
-                         LinkedHashEntry *prevEntry = NULL;
-                         LinkedHashEntry *entry = table[hash];
-                         while (entry != NULL) {
-                              prevEntry = entry;
-                              entry = entry->getNext();
-                              delete prevEntry;
-                         }
-                   }
-             delete[] table;
-       }
- };
-  */
-
+ 
  #endif

@@ -24,12 +24,21 @@ class subwayStation {
   public:
     subwayStation(){}
     subwayStation(const string & subwayInfo);
+    string subwayName(){ return Name; }
   void getObjectFixLine();
   void getObjectFixGeom();
-  friend ostream & operator << (ostream & os,
-    const subwayStation & t);
+  string getLineStr(){ string str; return subwayLines.getLineObjS(str);}
+  
+  friend ostream & operator << (ostream & os, const subwayStation & t);
   struct LineObj {
     vector < string > LineStrE;
+    string getLineObjS(string &trueString){
+     for (int i = 0; i < LineStrE.size(); ++i) {
+        trueString += LineStrE[i];
+        if (i != LineStrE.size() - 1)
+          trueString += "-";
+      }
+    }
     friend ostream & operator << (ostream & os,
       const LineObj & t) {
       //cout << "What\n\t" << t.LineStrE.size() << endl;
@@ -43,6 +52,7 @@ class subwayStation {
     }
   }
   subwayLines;
+  LineObj getLineObj(){ return subwayLines; }
   private:
     double ObjectId;
   string URL, Name, Line, The_Geom;

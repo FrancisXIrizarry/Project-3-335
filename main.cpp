@@ -78,8 +78,8 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
       //cout << "Before what" << endl;
       newsubwayStation.getObjectFixGeom();
       newsubwayStation.getObjectFixLine();
-      newSubWay.addToVec(newsubwayStation);
-      cout << newsubwayStation << endl;
+      newSubWay.hashStation(newsubwayStation);
+    //  cout << newsubwayStation << endl;
       //cout << "Hmm " << endl;
     }
   }
