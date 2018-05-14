@@ -57,6 +57,7 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
   double distance;
   bool result;
   subwaySystem newSubWay;
+  subwayStation newsubwayStation;
   string inputFile;
   iFile >> inputFile;
   ifstream inputFileHandling;
@@ -75,13 +76,13 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
     } else {
         //cout << " new sub size " << newSubWay.getcurrentStation().size() << endl;
          if(newSubWay.getcurrentStation().size() == 0){
-	          subwayStation newsubwayStation;
+	         // subwayStation newsubwayStation;
               subwayEntrance newsubwayEntrance(subwayInfo);
              
               newsubwayEntrance.getObjectFixGeom();
               newsubwayEntrance.getObjectFixLine();
               newsubwayStation.addSubwayEntrance(newsubwayEntrance);
-              newSubWay.push_backFunc(newsubwayStation);
+              //newSubWay.push_backFunc(newsubwayStation);
               // newSubWay.hashStation(newsubwayStation);
               // cout << newsubwayStation << endl;
              // cout << "Hmm " << newSubWay.getcurrentStation().size() << endl;
@@ -92,7 +93,7 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
             subwayEntrance newsubwayEntrance(subwayInfo);
             newsubwayEntrance.getObjectFixGeom();
             newsubwayEntrance.getObjectFixLine();
-            
+            newsubwayStation.addSubwayEntrance(newsubwayEntrance);
             /*for(int x = 0; x < tempsize; x++){
                 cout << newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) << endl;
                 if(newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) == true){ addedToStation = true; break;}
@@ -103,14 +104,17 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
                     newSubWay.push_backFunc(newsubwayStation);
                 }
            */
-            subwayStation newsubwayStation;
-            newsubwayStation.addSubwayEntrance(newsubwayEntrance);
-            newSubWay.push_backFunc(newsubwayStation);
+            //subwayStation newsubwayStation;
+           // newsubwayStation.addSubwayEntrance(newsubwayEntrance);
+           // newSubWay.push_backFunc(newsubwayStation);
          }
     }
   }
-  cout << "Hmmx " << newSubWay.getcurrentStation().size() << endl;
-  cout << newSubWay.getSetSize(0) << endl;
+   newSubWay.push_backFunc(newsubwayStation);
+  cout << "Hmmx " << newSubWay.getcurrentStation().size() << " ann d " << newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).getVecSize() << endl;
+    newSubWay.unionTestFunc(0,1, 0);
+  //newSubWay.unionTestFunc(0,1);
+  //cout << newSubWay.getSetSize(0) << endl;
   newSubWay.printAllHashStation();
   bool exit = false;
   string commandFile;

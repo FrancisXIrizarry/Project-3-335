@@ -205,8 +205,8 @@ using namespace std;
      // LineHash.add(LineHash.getSize(), newsubwayStation.getLineObj());
    }
    int getSetSize(int x){ return currentStations.at(x).getSetSize();}
-
-
+   //void testUnionFunc(int root1, int root2){ currentStations.at(root1).unionTest(currentStations.at(root1), currentStations.at(root2), root1, root2);}
+     void unionTestFunc(int root1, int root2, int loc){ currentStations.at(loc).unionFunc(root1, root2);}
    void printAllHashStation(){
      for(int i = 0; i < StationHash.getSize(); i++){
        // cout << StationHash.get(i) << endl; // StationHash.returnTable()[i]

@@ -33,6 +33,7 @@ class DisjSets
   void unionT(typeUnion, typeUnion);
   void addElementToSet(typeUnion x);
   typeUnion find (typeUnion x);
+  typeUnion getElement(int root){cout << s.size() << endl; return s.at(root);}
   int getSizeOfVec() { return s.size(); }
     private:vector < typeUnion >s;
 };
@@ -61,16 +62,16 @@ void DisjSets<typeUnion>::unionT(typeUnion root1, typeUnion root2)
 {
   if (root1.getRoot() != root2.getRoot())
     {
-      if (s[root2.getRoot()] < s[root1.getRoot()])
+      if (s[root2.getRoot()].getRoot() < s[root1.getRoot()].getRoot())
 	{
 // root2 is deeper
-	  s[root2.getRoot()].addToRoot(s[root1.getRoot()]);
+	  s[root2.getRoot()].addToRoot(s[root1.getRoot()].getRoot());
 	  s[root1.getRoot()].setRoot(root2.getRoot());
 	}
       else
 	{
 // root1 is deeper
-	  s[root1.getRoot()].addToRoot(s[root2.getRoot()]);
+	  s[root1.getRoot()].addToRoot(s[root2.getRoot()].getRoot());
 	  s[root2.getRoot()].setRoot(root1.getRoot());
 	}
     }
@@ -162,12 +163,11 @@ public:
     subwayStation() {}
     bool addSubwayEntrance(subwayEntrance t)
     {
-        bool inEntrance = false;
-        if (allEntrances.size() == 0) {
+     
             allEntrances.push_back(t);
             entranceSets.addElementToSet(t);
             return true;
-        }
+     
        /* for (int i = 0; i < allEntrances.size(); i++) {
             // cout << allEntrances.at(i).GeomObj.getGeoLat() << " and " <<  t.GeomObj.getGeoLat() << " and total size" << allEntrances.size()<< i << " in for loop subway add station entrance " <<  endl;
             //if((allEntrances.at(i).GeomObj.getGeoLat() == t.GeomObj.getGeoLat()) && (allEntrances.at(i).GeomObj.getGeoLong() == t.GeomObj.getGeoLong())) cout << "What the fuck? " << endl;
@@ -178,15 +178,15 @@ public:
         }*/
 
         //cout << "inEntrance" << inEntrance << endl;
-        if (inEntrance == false) {
-            allEntrances.push_back(t);
-            return true;
-        }
+      
 
         return false;
     }
     double haversine(double lat1, double lon1, double lat2, double lon2);
-    //int getVecSize(){ return entranceSets.size();}
+    int getVecSize(){ return entranceSets.getSizeOfVec();}
+   // void unionTest(subwayStation root1, subwayStation root2, int intRoot1, int intRoot2){ entranceSets.unionT(root1.getEntraces.at(intRoot1), root2.getEntraces.at(intRoot2));}
+   // subwayEntrance getEntrance(int x){ return allEntrance
+      void unionFunc(int root1, int root2){entranceSets.unionT(entranceSets.getElement(root1), entranceSets.getElement(root2));}
     int getSetSize(){ return entranceSets.getSizeOfVec();}//getSizeOfVec(); if I wanted to return a specific set size
 private:
     vector<subwayEntrance> allEntrances;
