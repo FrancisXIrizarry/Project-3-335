@@ -57,7 +57,9 @@
    void push_backFunc(subwayStation newsubwayStation){ currentStations.push_back(newsubwayStation); }
    void unionTestFunc(int root1, int root2, int loc){ currentStations.at(loc).unionFunc(root1, root2);}
    int findFunc(int x){ return currentStations.at(0).findElementSet(x);}
-   void testMask(){ currentStations.at(0).testEntranceMask(0); }
+   void testMask(){ int tempSize = currentStations.at(0).getAllEntranceSize(); 
+	for(int x = 0; x < tempSize; x++){currentStations.at(0).testEntranceMask(x);} 
+   }
    private:
      string inputFile;
     // HashMap<subwayStation> StationHash;

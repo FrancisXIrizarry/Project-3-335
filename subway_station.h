@@ -327,21 +327,30 @@ public:
     void getObjectFixLine();
     void getObjectFixGeom();
     void maskLine(){ 
-        string temp = getLineStr(); 
-        cout << temp << endl;
+        string OriString = getLineStr();
+        //cout << temp << endl;
         SmallSet s1;
-        for(int i = 0; i < temp.size(); i++){
+        istringstream ss(OriString);
+
+        while(getline(ss, OriString, '-')){
+         // cout << "Ori String " << OriString << endl;
+          istringstream RealString(OriString);
+          string stringIntConv;
+          RealString >> stringIntConv;
+          if(OriString == "GS"){ s1.add(34); }
+          else if(OriString == "SIR"){s1.add(35); }
+          else{
           for(int x = 1; x < 8; x++){
-		  //cout << "wot " << temp[x] << endl;
-            if(temp[i] == x){ s1.add(x); cout << "wot " << temp[i] << endl;}
+		    //cout << "wot " << stringIntConv << " and x " << x <<  endl;
+            if(stringIntConv[0] == x){ s1.add(x); }//cout << "wot " << stringIntConv << endl;
           }
-          for(int y = 0; y < 26; y++){
-            if(temp[i] == ('A'+y)){ s1.add((temp[i] - 'A') + 8);}
+          for(int y = 0; y < 27; y++){
+            
+            if(stringIntConv[0] == ('A'+y)){ s1.add((stringIntConv[0] - 'A') + 8); cout << "stringIntConv[0]" << stringIntConv[0] << " and val " << stringIntConv[0] - 'A' + 8 << endl; }
           }
-          string tempCopyS;
-          tempCopyS.push_back(temp[i]);
-         if(tempCopyS == "GS"){ s1.add(34); }
-         else if(tempCopyS == "SIR"){s1.add(35);}
+          }
+      
+         
         }
         std::cout << "s1 = ";
         s1.print(std::cout);
@@ -440,8 +449,9 @@ public:
    // subwayEntrance getEntrance(int x){ return allEntrance
       void unionFunc(int root1, int root2){entranceSets.unionT(root1, root2);}
       int findElementSet(int x){ return entranceSets.find(x);}
+    int getAllEntranceSize(){ return allEntrances.size();}
     int getSetSize(){ return entranceSets.getSizeOfVec();}//getSizeOfVec(); if I wanted to return a specific set size
-    void testEntranceMask(int x){ allEntrances.at(allEntrances.size() - 1).maskLine();}
+    void testEntranceMask(int x){ allEntrances.at(x).maskLine();}//allEntrances.size() - 1
 private:
     vector<subwayEntrance> allEntrances;
     DisjSets<subwayEntrance> entranceSets;
