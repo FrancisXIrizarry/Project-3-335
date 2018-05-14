@@ -332,15 +332,16 @@ public:
         SmallSet s1;
         for(int i = 0; i < temp.size(); i++){
           for(int x = 1; x < 8; x++){
-            if(temp[x] == x){ s1.add(x);}
+		  //cout << "wot " << temp[x] << endl;
+            if(temp[i] == x){ s1.add(x); cout << "wot " << temp[i] << endl;}
           }
           for(int y = 0; y < 26; y++){
-            if(temp[y] == ('A'+y)){ s1.add((temp[y] - 'A') + 7);}
+            if(temp[i] == ('A'+y)){ s1.add((temp[i] - 'A') + 8);}
           }
           string tempCopyS;
           tempCopyS.push_back(temp[i]);
-         // if(tempCopyS == "GS"){ s1.add(34); }
-         // else if(tempCopyS == "SIR"){s1.add(35);}
+         if(tempCopyS == "GS"){ s1.add(34); }
+         else if(tempCopyS == "SIR"){s1.add(35);}
         }
         std::cout << "s1 = ";
         s1.print(std::cout);
