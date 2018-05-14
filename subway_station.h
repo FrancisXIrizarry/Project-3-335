@@ -30,10 +30,10 @@ class DisjSets
 {
   public:
   DisjSets ();
-  void unionT(typeUnion, typeUnion);
+  void unionT(int, int);
   void addElementToSet(typeUnion x);
-  typeUnion find (typeUnion x);
-  typeUnion getElement(int root){cout << s.size() << endl; return s.at(root);}
+  int find (int x);
+  typeUnion getElement(int root){return s.at(root);}
   int getSizeOfVec() { return s.size(); }
     private:vector < typeUnion >s;
 };
@@ -58,21 +58,21 @@ void DisjSets<typeUnion>::addElementToSet(typeUnion x){
     s.at(s.size() - 1).setRoot(-1);
 }
 template<class typeUnion>
-void DisjSets<typeUnion>::unionT(typeUnion root1, typeUnion root2)
+void DisjSets<typeUnion>::unionT(int root1, int root2)
 {
-  if (root1.getRoot() != root2.getRoot())
+  if (root1 != root2)
     {
-      if (s[root2.getRoot()].getRoot() < s[root1.getRoot()].getRoot())
+      if (s[root2].getRoot() < s[root1].getRoot())
 	{
 // root2 is deeper
-	  s[root2.getRoot()].addToRoot(s[root1.getRoot()].getRoot());
-	  s[root1.getRoot()].setRoot(root2.getRoot());
+	  s[root2].addToRoot(s[root1].getRoot());
+	  s[root1].setRoot(root2);
 	}
       else
 	{
 // root1 is deeper
-	  s[root1.getRoot()].addToRoot(s[root2.getRoot()].getRoot());
-	  s[root2.getRoot()].setRoot(root1.getRoot());
+	  s[root1].addToRoot(s[root2].getRoot());
+	  s[root2].setRoot(root1);
 	}
     }
 }
@@ -84,12 +84,20 @@ void DisjSets<typeUnion>::unionT(typeUnion root1, typeUnion root2)
 * @return the set containing x .
 */
 template<class typeUnion>
-typeUnion DisjSets<typeUnion>::find (typeUnion x)
+int DisjSets<typeUnion>::find (int x)
 {
-  if (s[x.getRoot()] < 0)
+   cout << " testa roo " << s.size() << " x " << x << endl;
+   cout << s[x].getRoot() << endl;
+   cout << " testa 11111" << endl;
+  if (s[x].getRoot() < 0){
+    cout << " if wow " << endl;
     return x;
-  else
-    return s[x.getRoot()] = find (s[x.getRoot()]);
+  }
+  else{
+    s[x].setRoot(find (s[x].getRoot()));
+    cout << " else wow " << endl;
+    return s[x].getRoot();
+    }
 }
 
 class subwayEntrance {
@@ -186,7 +194,8 @@ public:
     int getVecSize(){ return entranceSets.getSizeOfVec();}
    // void unionTest(subwayStation root1, subwayStation root2, int intRoot1, int intRoot2){ entranceSets.unionT(root1.getEntraces.at(intRoot1), root2.getEntraces.at(intRoot2));}
    // subwayEntrance getEntrance(int x){ return allEntrance
-      void unionFunc(int root1, int root2){entranceSets.unionT(entranceSets.getElement(root1), entranceSets.getElement(root2));}
+      void unionFunc(int root1, int root2){entranceSets.unionT(root1, root2);}
+      int findElementSet(int x){ return entranceSets.find(x);}
     int getSetSize(){ return entranceSets.getSizeOfVec();}//getSizeOfVec(); if I wanted to return a specific set size
 private:
     vector<subwayEntrance> allEntrances;

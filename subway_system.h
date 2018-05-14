@@ -197,7 +197,8 @@ using namespace std;
      void newSubWaySystem();
 
    void hashStation(subwayEntrance newsubwayEntrance) {
-        allSubwayEntrances.push_back(newsubwayEntrance);//For all stations
+        allSubwayEntrances.push_back(newsubwayEntrance);//For all Entrances
+        
         
       //  cout << newsubwayStation << "\t " << StationHash.hashFun(newsubwayStation.subwayName()) << endl;
       // StationHash.add(StationHash.hashFun(newsubwayStation.subwayName()), newsubwayStation); //StationHash.hashFun(newsubwayStation.subwayName())  StationHash.getSize() For Quick finding station
@@ -206,7 +207,7 @@ using namespace std;
    }
    int getSetSize(int x){ return currentStations.at(x).getSetSize();}
    //void testUnionFunc(int root1, int root2){ currentStations.at(root1).unionTest(currentStations.at(root1), currentStations.at(root2), root1, root2);}
-     void unionTestFunc(int root1, int root2, int loc){ currentStations.at(loc).unionFunc(root1, root2);}
+     
    void printAllHashStation(){
      for(int i = 0; i < StationHash.getSize(); i++){
        // cout << StationHash.get(i) << endl; // StationHash.returnTable()[i]
@@ -224,6 +225,8 @@ using namespace std;
    }
    vector<subwayStation> getcurrentStation(){ return currentStations; }
    void push_backFunc(subwayStation newsubwayStation){ currentStations.push_back(newsubwayStation); }
+   void unionTestFunc(int root1, int root2, int loc){ currentStations.at(loc).unionFunc(root1, root2);}
+   int findFunc(int x){ return currentStations.at(0).findElementSet(x);}
    private:
      string inputFile;
      HashMap<subwayStation> StationHash;
