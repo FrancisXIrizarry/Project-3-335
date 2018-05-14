@@ -112,12 +112,8 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
   }
    newSubWay.push_backFunc(newsubwayStation);
   cout << "Hmmx " << newSubWay.getcurrentStation().size() << " ann d " << newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).getVecSize() << endl;
-    newSubWay.unionTestFunc(4,17, 0);
-    newSubWay.unionTestFunc(5,18, 0);
-    newSubWay.unionTestFunc(6,19, 0);
-  cout << newSubWay.findFunc(19) << endl;
-  cout << newSubWay.findFunc(18) << endl;
-  cout << newSubWay.findFunc(17) << endl;
+   //newSubWay.createRealStations();
+   newSubWay.testMask();
   //newSubWay.unionTestFunc(0,1);
   //cout << newSubWay.getSetSize(0) << endl;
   newSubWay.printAllHashStation();
