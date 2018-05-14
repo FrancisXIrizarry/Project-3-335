@@ -1,6 +1,6 @@
 #include "subway_station.h"
 
-subwayStation::subwayStation(const string & subwayInfo){ 
+subwayEntrance::subwayEntrance(const string & subwayInfo){ 
 	//cout << "The fuck " << endl;
 	 string allInfo = subwayInfo;
 	 stringstream iss(subwayInfo);
@@ -24,7 +24,7 @@ subwayStation::subwayStation(const string & subwayInfo){
 	Name = splitString.at(2); 
 	Line = splitString.at(4);
 }
-void subwayStation::getObjectFixLine(){
+void subwayEntrance::getObjectFixLine(){
 	string tempStr;
 	istringstream iss(Line);
 	while ( getline ( iss, tempStr, '-')){
@@ -32,7 +32,7 @@ void subwayStation::getObjectFixLine(){
 	}
 }
 
-void subwayStation::getObjectFixGeom(){
+void subwayEntrance::getObjectFixGeom(){
 	string tempString = The_Geom;
 	tempString.erase(0,7);
 	tempString.erase(tempString.size()-1, tempString.size());
@@ -47,12 +47,26 @@ void subwayStation::getObjectFixGeom(){
 	GeomObj.latitude = value;
 	
 }
-
-ostream& operator<< (ostream & os, const subwayStation & t){
-	os << t.ObjectId << "\t" << t.GeomObj << "\t" << t.URL << "\t" << setw(60) << t.Name << t.subwayLines;
+bool operator==(const subwayEntrance & t1, const subwayEntrance & t2)
+{
+}
+double subwayStation::haversine(double lat1, double lon1, double lat2, double lon2) {
+  lat1 = TO_RAD * lat1;
+  lat2 = TO_RAD * lat2;
+  lon1 = TO_RAD * lon1;
+  lon2 = TO_RAD * lon2;
+  double dLat = (lat2 - lat1) / 2;
+  double dLon = (lon2 - lon1) / 2;
+  double a = sin(dLat);
+  double b = sin(dLon);
+  return 2 * R * asin(sqrt(a * a + cos(lat1) * cos(lat2) * b * b));
 }
 
 
+
+ostream& operator<< (ostream & os, const subwayEntrance & t){
+	os << t.ObjectId << "\t" << t.GeomObj << "\t" << t.URL << "\t" << setw(60) << t.Name << t.subwayLines;
+}
 
 
 

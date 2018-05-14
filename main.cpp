@@ -73,16 +73,44 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
       cout << "break?" << endl;
       endofFile = true;
     } else {
-
-      subwayStation newsubwayStation(subwayInfo);
-      //cout << "Before what" << endl;
-      newsubwayStation.getObjectFixGeom();
-      newsubwayStation.getObjectFixLine();
-      newSubWay.hashStation(newsubwayStation);
-    //  cout << newsubwayStation << endl;
-      //cout << "Hmm " << endl;
+        //cout << " new sub size " << newSubWay.getcurrentStation().size() << endl;
+         if(newSubWay.getcurrentStation().size() == 0){
+	          subwayStation newsubwayStation;
+              subwayEntrance newsubwayEntrance(subwayInfo);
+             
+              newsubwayEntrance.getObjectFixGeom();
+              newsubwayEntrance.getObjectFixLine();
+              newsubwayStation.addSubwayEntrance(newsubwayEntrance);
+              newSubWay.push_backFunc(newsubwayStation);
+              // newSubWay.hashStation(newsubwayStation);
+              // cout << newsubwayStation << endl;
+             // cout << "Hmm " << newSubWay.getcurrentStation().size() << endl;
+         }
+         else{
+            int tempsize = newSubWay.getcurrentStation().size();
+            bool addedToStation = false;
+            subwayEntrance newsubwayEntrance(subwayInfo);
+            newsubwayEntrance.getObjectFixGeom();
+            newsubwayEntrance.getObjectFixLine();
+            
+            /*for(int x = 0; x < tempsize; x++){
+                cout << newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) << endl;
+                if(newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) == true){ addedToStation = true; break;}
+            }
+                if(addedToStation == false){
+                    subwayStation newsubwayStation;
+                    newsubwayStation.addSubwayEntrance(newsubwayEntrance);
+                    newSubWay.push_backFunc(newsubwayStation);
+                }
+           */
+            subwayStation newsubwayStation;
+            newsubwayStation.addSubwayEntrance(newsubwayEntrance);
+            newSubWay.push_backFunc(newsubwayStation);
+         }
     }
   }
+  cout << "Hmmx " << newSubWay.getcurrentStation().size() << endl;
+  cout << newSubWay.getSetSize(0) << endl;
   newSubWay.printAllHashStation();
   bool exit = false;
   string commandFile;

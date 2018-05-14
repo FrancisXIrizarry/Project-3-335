@@ -19,10 +19,7 @@
 #include <sstream>
 #include <fstream>
 #include "subway_station.h"
-#include <math.h>
- 
-#define R 6372.8
-#define TO_RAD (3.1415926536 / 180)
+
 const int DEFAULT_TABLE_SIZE = 512;
 
 using namespace std;
@@ -96,7 +93,7 @@ using namespace std;
      public:
        HashMap() {
          threshold = 0.75f;
-         maxSize = 96;
+         maxSize = DEFAULT_TABLE_SIZE-1;
          tableSize = DEFAULT_TABLE_SIZE;
          size = 0;
          table = new LinkedHashEntry < myType > * [tableSize];
@@ -199,14 +196,15 @@ using namespace std;
    public:
      void newSubWaySystem();
 
-   void hashStation(subwayStation newsubwayStation) {
-        allSubwayStations.push_back(newsubwayStation);//For all stations
-        cout << newsubwayStation << "\t " << StationHash.hashFun(newsubwayStation.subwayName()) << endl;
-       StationHash.add(StationHash.hashFun(newsubwayStation.subwayName()), newsubwayStation); //StationHash.hashFun(newsubwayStation.subwayName())  StationHash.getSize() For Quick finding station
+   void hashStation(subwayEntrance newsubwayEntrance) {
+        allSubwayEntrances.push_back(newsubwayEntrance);//For all stations
+        
+      //  cout << newsubwayStation << "\t " << StationHash.hashFun(newsubwayStation.subwayName()) << endl;
+      // StationHash.add(StationHash.hashFun(newsubwayStation.subwayName()), newsubwayStation); //StationHash.hashFun(newsubwayStation.subwayName())  StationHash.getSize() For Quick finding station
       //string str = newsubwayStation.getLineStr();
-      LineHash.add(LineHash.getSize(), newsubwayStation.getLineObj());
+     // LineHash.add(LineHash.getSize(), newsubwayStation.getLineObj());
    }
-   double haversine(double lat1, double lon1, double lat2, double lon2);
+   int getSetSize(int x){ return currentStations.at(x).getSetSize();}
 
 
    void printAllHashStation(){
@@ -217,20 +215,21 @@ using namespace std;
      //  cout << LineHash.get(i) << endl; // StationHash.returnTable()[i]
      }
      //int y = StationHash.getSize();
-     int x = LineHash.getSize();
-     cout << StationHash.hashFun("Woodhaven Blvd & Queens Blvd at SW corner") << endl;
+    // int x = LineHash.getSize();
+    // cout << StationHash.hashFun("Woodhaven Blvd & Queens Blvd at SW corner") << endl;
      //cout << StationHash.hashFun("Woodhaven Blvd & Queens Blvd at SW corner") << endl; StationHash.returnTable()[32587595529594132 % 512]->getNext() << << StationHash.get(32587595529594132) << "\n"
     // LinkedHashEntry<subwayStation> *next =  StationHash.returnTable()[32587595529594132 % 512]->getNext();
     // cout << StationHash.getSize() << endl;
     //  cout << StationHash.returnTable()[32587595529594132 % 512]->getValue() << " Prev and Next " << next->getValue() <<   "\ntest " << LineHash.get(x-1);
    }
-
+   vector<subwayStation> getcurrentStation(){ return currentStations; }
+   void push_backFunc(subwayStation newsubwayStation){ currentStations.push_back(newsubwayStation); }
    private:
      string inputFile;
      HashMap<subwayStation> StationHash;
-     HashMap<subwayStation::LineObj>LineHash;
-   vector < subwayStation > allSubwayStations;
-
+     HashMap<subwayEntrance::LineObj>LineHash;
+     vector < subwayEntrance> allSubwayEntrances;
+     vector<subwayStation> currentStations;
    //vector < subwayStation::LineObj > LineContainer;
 
    //vector
