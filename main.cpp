@@ -58,6 +58,7 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
   bool result;
   subwaySystem newSubWay;
   subwayStation newsubwayStation;
+  vector<subwayEntrance> allsubwayEntrances;
   string inputFile;
   iFile >> inputFile;
   ifstream inputFileHandling;
@@ -81,37 +82,29 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
              
               newsubwayEntrance.getObjectFixGeom();
               newsubwayEntrance.getObjectFixLine();
-              newsubwayStation.addSubwayEntrance(newsubwayEntrance);
+              /*for(int i = 0; i < allsubwayEntrances.size(); i++){
+                //cout << ":Te " << i << endl;
+                if(allsubwayEntrances.size() == 0){ break;}
+                else{
+                allsubwayEntrances.at(i).checkifUnionable(allsubwayEntrances.at(i), newsubwayEntrance);
+                }
+               
+             }*/
+               //allsubwayEntrances.at(0).maskLine()
+               if(allsubwayEntrances.size() == 5){}
+            allsubwayEntrances.push_back(newsubwayEntrance);
+            newsubwayStation.addSubwayEntrance(newsubwayEntrance);
               //newSubWay.push_backFunc(newsubwayStation);
               // newSubWay.hashStation(newsubwayStation);
               // cout << newsubwayStation << endl;
              // cout << "Hmm " << newSubWay.getcurrentStation().size() << endl;
          }
-         else{
-            int tempsize = newSubWay.getcurrentStation().size();
-            bool addedToStation = false;
-            subwayEntrance newsubwayEntrance(subwayInfo);
-            newsubwayEntrance.getObjectFixGeom();
-            newsubwayEntrance.getObjectFixLine();
-            newsubwayStation.addSubwayEntrance(newsubwayEntrance);
-            /*for(int x = 0; x < tempsize; x++){
-                cout << newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) << endl;
-                if(newSubWay.getcurrentStation().at(x).addSubwayEntrance(newsubwayEntrance) == true){ addedToStation = true; break;}
-            }
-                if(addedToStation == false){
-                    subwayStation newsubwayStation;
-                    newsubwayStation.addSubwayEntrance(newsubwayEntrance);
-                    newSubWay.push_backFunc(newsubwayStation);
-                }
-           */
-            //subwayStation newsubwayStation;
-           // newsubwayStation.addSubwayEntrance(newsubwayEntrance);
-           // newSubWay.push_backFunc(newsubwayStation);
-         }
     }
   }
    newSubWay.push_backFunc(newsubwayStation);
   cout << "Hmmx " << newSubWay.getcurrentStation().size() << " ann d " << newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).getVecSize() << endl;
+  //allsubwayEntrances.at(allsubwayEntrances.size() - 1).displayEntranceSet
+    
    //newSubWay.createRealStations();
    newSubWay.testMask();
   //newSubWay.unionTestFunc(0,1);

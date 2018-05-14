@@ -31,7 +31,7 @@ using namespace std;
 // A bitstring is an integer whose value is irrelevant to us but whose
 // bits define which elements are in the set that it represents: if the ith
 // bit is 1, it is in the set, and if it is 0, it is not. 
-typedef  int bitstring;
+typedef  unsigned long int bitstring;
 
 
 /** SmallSet represents a small set, not more than the wordsize of the
@@ -54,17 +54,17 @@ public:
     bitstring   complement();
 
     
-    void  add(int i);
+    void  add(long int i);
 
 
-    bool  contains(int i);
+    bool  contains(long int i);
     void  print(std::ostream& out);
     friend bitstring   do_union(SmallSet s, SmallSet t);
     friend bitstring   intersection(SmallSet s, SmallSet t);
-    
+    int getValue(){ return set; }
 
 private:
-    bitstring mask[WORD_BIT];
+    bitstring mask[LONG_BIT];
     bitstring set;
     int size;
 };
@@ -329,7 +329,7 @@ public:
     void maskLine(){ 
         string OriString = getLineStr();
         //cout << temp << endl;
-        SmallSet s1;
+        
         istringstream ss(OriString);
 
         while(getline(ss, OriString, '-')){
@@ -337,24 +337,27 @@ public:
           istringstream RealString(OriString);
           string stringIntConv;
           RealString >> stringIntConv;
-          if(OriString == "GS"){ s1.add(34); }
-          else if(OriString == "SIR"){s1.add(35); }
+          if(OriString == "GS"){ entranceMask.add(34); }
+          else if(OriString == "SIR"){entranceMask.add(35); }
           else{
           for(int x = 1; x < 8; x++){
-		    //cout << "wot " << stringIntConv << " and x " << x <<  endl;
-            if(stringIntConv[0] == x){ s1.add(x); }//cout << "wot " << stringIntConv << endl;
+            int intConv;
+            istringstream TempCopy(stringIntConv);
+            TempCopy >> intConv;
+		    //cout << "wot " << intConv << " and x " << x <<  endl;
+            if(intConv == x){ entranceMask.add(x); }//cout << "wot " << stringIntConv << endl;
           }
           for(int y = 0; y < 27; y++){
             
-            if(stringIntConv[0] == ('A'+y)){ s1.add((stringIntConv[0] - 'A') + 8); cout << "stringIntConv[0]" << stringIntConv[0] << " and val " << stringIntConv[0] - 'A' + 8 << endl; }
+            if(stringIntConv[0] == ('A'+y)){ entranceMask.add((stringIntConv[0] - 'A') + 8); /*cout << "stringIntConv[0]" << stringIntConv[0] << " and val " << stringIntConv[0] - 'A' + 8 << endl;*/ }
           }
           }
       
          
         }
-        std::cout << "s1 = ";
-        s1.print(std::cout);
-    //setLineMask(
+      //  std::cout <<  OriString << " --- entranceMask = ";
+       // entranceMask.print(std::cout);
+  
     }
 
     string getLineStr()
@@ -408,9 +411,14 @@ public:
     void setRoot(int x){ root = x;}
     int getRoot(){ return root;}
     void addToRoot(int x){ root += x;}
-    int getLineMask(){ return lineMask;}
-    void setLineMask(int mask){ lineMask = mask; }
-private:
+   
+    SmallSet getLineMask(){ return entranceMask;}
+    
+    int findEntranceSet(int x){ return entranceSet.find(x);}
+    void displayEntranceSet(int x){ cout << " at x " << entranceSet.getElement(x) << endl; }
+private:  
+    SmallSet entranceMask;
+    DisjSets<subwayEntrance> entranceSet;
     double ObjectId;
     string URL, Name, Line, The_Geom;
     int root;
@@ -426,22 +434,26 @@ public:
      
             allEntrances.push_back(t);
 	       
-            if(entranceSets.addElementToSet(t)){ return true;}
-            else { return true;}
-     
-       /* for (int i = 0; i < allEntrances.size(); i++) {
-            // cout << allEntrances.at(i).GeomObj.getGeoLat() << " and " <<  t.GeomObj.getGeoLat() << " and total size" << allEntrances.size()<< i << " in for loop subway add station entrance " <<  endl;
-            //if((allEntrances.at(i).GeomObj.getGeoLat() == t.GeomObj.getGeoLat()) && (allEntrances.at(i).GeomObj.getGeoLong() == t.GeomObj.getGeoLong())) cout << "What the fuck? " << endl;
-            if (haversine(allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i).GeomObj.getGeoLong(), t.GeomObj.getGeoLat(), t.GeomObj.getGeoLat()) < killDistance) {
-                inEntrance = true;
-                break;
-            }
-        }*/
-
-        //cout << "inEntrance" << inEntrance << endl;
-      
-
+            entranceSets.addElementToSet(t);
+           
+           
+              
+    
+   // double haversine(double lat1, double lon1, double lat2, double lon2);
         return false;
+    }
+    
+    void checkifUnionable(){
+        int setSize = entranceSets.getSizeOfVec();
+        for(int i = 0; i < setSize-1; i++){
+         if(allEntrances.at(i).getLineMask().getValue() == 0) {allEntrances.at(i).maskLine();}
+         if(allEntrances.at(i+1).getLineMask().getValue() == 0) {allEntrances.at(i+1).maskLine();}
+        if(intersection(allEntrances.at(i).getLineMask(), allEntrances.at(i+1).getLineMask()) == allEntrances.at(i).getLineMask().getValue()){
+            if(haversine(allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLong(),allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLat()) < killDistance){
+                entranceSets.unionT(allEntrances.at(i).getRoot(), allEntrances.at(i+1).getRoot());
+          }   
+         }
+        } 
     }
     double haversine(double lat1, double lon1, double lat2, double lon2);
     int getVecSize(){ return entranceSets.getSizeOfVec();}
@@ -463,12 +475,6 @@ private:
     //inline ostream &operator<< (ostream & os, const GeomObj & t){}
 };
 
-/*
 
-subway_station.h //with entrance  + hashing
-subway_station.cpp //with entrance + hashing for line and station
-subway_system.h
-subway_system.cpp
-*/
 
 #endif 

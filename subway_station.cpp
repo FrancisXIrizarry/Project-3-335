@@ -75,8 +75,8 @@ ostream& operator<< (ostream & os, const subwayEntrance & t){
 SmallSet::SmallSet(bitstring j)
 {
 	//cout << "test" << endl;
-    for (int i = 0; i < WORD_BIT; i++) {
-        mask[i] = 1 << i;
+    for (int i = 0; i < LONG_BIT-28; i++) {
+        mask[i] = 1UL << i;
 	//cout << mask[i] << " Why " << endl;
     }
     set = j;
@@ -91,6 +91,7 @@ bitstring do_union(SmallSet s, SmallSet t)
 
 bitstring intersection(SmallSet s, SmallSet t)
 {
+   // cout << " ree " << s.set << " and " << t.set <<  endl;
     return s.set & t.set;
 }
 
@@ -100,9 +101,9 @@ bitstring SmallSet::complement()
     return  set ^ (unsigned)(-1);  // xor with 111...1
 }
 
-void SmallSet::add(int i)
+void SmallSet::add(long int i)
 {
-    if ( 0 <= i && i < WORD_BIT ) {
+    if ( 0 <= i && i < LONG_BIT-28 ) {
         if (! contains(i) ) {
             set = set | mask[i];
             size++;
@@ -111,10 +112,10 @@ void SmallSet::add(int i)
 }
 
 
-bool SmallSet::contains(int i)
+bool SmallSet::contains(long int i)
 {
-    if ( 0 <= i && i < WORD_BIT ){
-	cout << "Set " << set << " mask [i] " << mask[i] << " " << i << endl;
+    if ( 0 <= i && i < LONG_BIT-28 ){
+	//cout << "Set " << set << " mask [i] " << mask[i] << " " << i <<  " and word bit " << WORD_BIT << " AND LONG BIT " << LONG_BIT-28 << endl;
         return( set & mask[i] )? true: false;
 	}
     else
@@ -124,7 +125,8 @@ bool SmallSet::contains(int i)
 void SmallSet::print(std::ostream & out)
 {
     out << "{ ";
-    for (int i = 0; i < WORD_BIT; i++) {
+    for (int i = 0; i < LONG_BIT-28; i++) {
+	//cout << set << " and mask i " << mask[i] << " i " << i << endl;
         if (set & mask[i])
             out << i << " ";
     }
