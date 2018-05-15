@@ -239,12 +239,14 @@ class DisjSets
 {
   public:
   DisjSets ();
-  void unionT(int, int);
+  void unionT(double, double);
   bool addElementToSet(typeUnion x);
   int find (int x);
   typeUnion getElement(int root){return s.at(root);}
   int getSizeOfVec() { return s.size(); }
-    private:vector < typeUnion >s;
+  void printS(){ for(int x = 0; x < s.size(); x++){ cout << s.at(x).getRoot() << endl;}}
+    private:
+    vector < typeUnion >s;
 };
 /* Construct the disjoint sets object .
 * @param numElements is the initial number of disjoint sets .
@@ -268,8 +270,9 @@ bool DisjSets<typeUnion>::addElementToSet(typeUnion x){
     s.at(s.size() - 1).setRoot(-1);
 }
 template<class typeUnion>
-void DisjSets<typeUnion>::unionT(int root1, int root2)
+void DisjSets<typeUnion>::unionT(double root1, double root2)
 {
+    
   if (root1 != root2)
     {
       if (s[root2].getRoot() < s[root1].getRoot())
@@ -408,9 +411,9 @@ public:
 
     } GeomObj; //Struct called GeoObj, and a variable for the class called GeomObj
     GeoObj getGeoObjPrv() { return GeomObj; }
-    void setRoot(int x){ root = x;}
+    void setRoot(int x){ this->root = x;}
     int getRoot(){ return root;}
-    void addToRoot(int x){ root += x;}
+    void addToRoot(int x){ this->root += x;}
    
     SmallSet getLineMask(){ return entranceMask;}
     
@@ -449,11 +452,25 @@ public:
          if(allEntrances.at(i).getLineMask().getValue() == 0) {allEntrances.at(i).maskLine();}
          if(allEntrances.at(i+1).getLineMask().getValue() == 0) {allEntrances.at(i+1).maskLine();}
         if(intersection(allEntrances.at(i).getLineMask(), allEntrances.at(i+1).getLineMask()) == allEntrances.at(i).getLineMask().getValue()){
-            if(haversine(allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLong(),allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLat()) < killDistance){
+            /*cout << haversine(allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLong(),allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLong())
+            << " and distance" << killDistance << endl;*/
+
+            //cout << allEntrances.at(i).GeomObj.getGeoLat() << " ---- " << allEntrances.at(i+1).GeomObj.getGeoLong() << " ---- " <<
+            //allEntrances.at(i).GeomObj.getGeoLat()<< " ---- "  << allEntrances.at(i+1).GeomObj.getGeoLong() << endl;
+            //cout << allEntrances.at(i).getRoot() << "<- Long Lat ->  " << allEntrances.at(i).getRoot() << " and name of entrance1   " << allEntrances.at(i) <<  "\n" << endl;
+            //cout << allEntrances.at(i+1).getRoot() << "<- Long Lat ->  " << allEntrances.at(i+1).getRoot() << " and name of entrance2   " << allEntrances.at(i+1) <<  endl;
+            if(haversine(allEntrances.at(i).GeomObj.getGeoLat(), allEntrances.at(i).GeomObj.getGeoLong(),allEntrances.at(i+1).GeomObj.getGeoLat(), allEntrances.at(i+1).GeomObj.getGeoLong()) < killDistance){
+               // cout << allEntrances.at(i).getRoot() << endl;
                 entranceSets.unionT(allEntrances.at(i).getRoot(), allEntrances.at(i+1).getRoot());
+                //cout << "made it " << endl;
           }   
          }
+          // cout << i << endl;
         } 
+    }
+    void checkUnions(){
+        
+            entranceSets.printS();
     }
     double haversine(double lat1, double lon1, double lat2, double lon2);
     int getVecSize(){ return entranceSets.getSizeOfVec();}

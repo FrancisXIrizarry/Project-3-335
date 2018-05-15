@@ -105,11 +105,15 @@ void inputFileData(stringstream & iFile, stringstream & oFile) {
   cout << "Hmmx " << newSubWay.getcurrentStation().size() << " ann d " << newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).getVecSize() << endl;
   //allsubwayEntrances.at(allsubwayEntrances.size() - 1).displayEntranceSet
     
+   //newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).checkifUnionable();
+   //newSubWay.getcurrentStation().at(newSubWay.getcurrentStation().size()-1).checkUnions();
+    
    //newSubWay.createRealStations();
-   newSubWay.testMask();
-  //newSubWay.unionTestFunc(0,1);
+  // newSubWay.testMask();
+  newSubWay.unionTestFunc(4,18, 0);
+  cout << newSubWay.findFunc(18) << endl;
   //cout << newSubWay.getSetSize(0) << endl;
-  newSubWay.printAllHashStation();
+  //newSubWay.printAllHashStation();
   bool exit = false;
   string commandFile;
 
